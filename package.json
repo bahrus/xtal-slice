@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "serve": "node node_modules/xtal-test/serve.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bahrus/xtal-slice.git"
+  },
+  "devDependencies": {
+    "xtal-test": "0.0.55"
   },
   "author": "",
   "license": "MIT",
