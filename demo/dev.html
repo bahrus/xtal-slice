@@ -16,7 +16,11 @@
     ></form>
     <obj-ml -value></obj-ml>
     <pass-down on="value-changed" vft="value.results.0.members" to="[-list]"></pass-down>
-    <xtal-slice -list></xtal-slice>
+    <label>
+        <input type="search" name="search" placeholder="Search" />
+        <pass-down on="change" vft from="label" to="[-new-slice-path]"></pass-down>
+    </label>
+    <xtal-slice -list -new-slice-path></xtal-slice>
     <script type=importmap>
         {
             "imports": {
