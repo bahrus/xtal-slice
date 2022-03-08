@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form be-reformable='{
+        "autoSubmit": true,
+        "debug": true
+    }'
+        action="test.json"
+        target="[-value]"
+    ></form>
+    <obj-ml -value></obj-ml>
+    <xtal-slice be-observant='{
+        "list": {
+            "observe": "obj-ml",
+            "vft": "value.results.0.members"
+        }
+    }'></xtal-slice>
+    <script type=importmap>
+        {
+            "imports": {
+                "trans-render/": "../node_modules/trans-render/",
+                "xtal-element/": "../node_modules/xtal-element/",
+                "be-decorated/": "../node_modules/be-decorated/",
+                "be-observant/": "../node_modules/be-observant/",
+                "be-reformable/": "../node_modules/be-reformable/",
+                "be-hive/": "../node_modules/be-hive/",
+                "obj-ml/": "../node_modules/obj-ml/"
+            }
+        }
+    </script>
+    <script type=module>
+        import 'be-observant/be-observant.js';
+        import 'be-reformable/be-reformable.js';
+        import 'obj-ml/obj-ml.js';
+    </script>
+</body>
+</html>
