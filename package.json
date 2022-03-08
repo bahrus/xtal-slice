@@ -15,7 +15,8 @@
     "xtal-test": "0.0.55",
     "be-observant": "0.0.101",
     "be-reformable": "0.0.34",
-    "obj-ml": "0.0.3"
+    "obj-ml": "0.0.3",
+    "pass-down": "0.0.120"
   },
   "author": "",
   "license": "MIT",

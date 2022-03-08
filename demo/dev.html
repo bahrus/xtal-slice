@@ -15,12 +15,8 @@
         target="[-value]"
     ></form>
     <obj-ml -value></obj-ml>
-    <xtal-slice be-observant='{
-        "list": {
-            "observe": "obj-ml",
-            "vft": "value.results.0.members"
-        }
-    }'></xtal-slice>
+    <pass-down on="value-changed" vft="value.results.0.members" to="[-list]"></pass-down>
+    <xtal-slice -list></xtal-slice>
     <script type=importmap>
         {
             "imports": {
@@ -30,14 +26,17 @@
                 "be-observant/": "../node_modules/be-observant/",
                 "be-reformable/": "../node_modules/be-reformable/",
                 "be-hive/": "../node_modules/be-hive/",
-                "obj-ml/": "../node_modules/obj-ml/"
+                "obj-ml/": "../node_modules/obj-ml/",
+                "on-to-me/": "../node_modules/on-to-me/",
+                "pass-down/": "../node_modules/pass-down/"
             }
         }
     </script>
     <script type=module>
-        import 'be-observant/be-observant.js';
         import 'be-reformable/be-reformable.js';
         import 'obj-ml/obj-ml.js';
+        import 'pass-down/pass-down.js';
+        import '../xtal-slice.js';
     </script>
 </body>
 </html>
