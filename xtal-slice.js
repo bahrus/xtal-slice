@@ -31,22 +31,36 @@ export class XtalSlice extends HTMLElement {
     }
     subSlice(slice, key) {
         const { slices, values, list } = slice;
+        debugger;
         for (const value of values) {
-            if (value === null)
+            if (value === null || value === undefined)
                 continue;
             const sVal = value.toString();
             slices[sVal] = {
                 values: new Set(),
                 list: [],
+                slices: {},
             };
         }
         for (const row of list) {
             const val = row[key];
-            if (val === null)
+            if (val === null || val === undefined)
                 continue;
-            const subSlice = slices[val.toString()];
-            subSlice.list.push(row);
-            subSlice.values.add(val);
+            const slice = slices[val.toString()];
+            slice.list.push(row);
+            const subSlices = slice.slices;
+            for (const key in row) {
+                if (!subSlices[key]) {
+                    subSlices[key] = {
+                        values: new Set(),
+                        list,
+                    };
+                }
+                const subVal = row[key];
+                const subSlice = subSlices[key];
+                //subSlice.list.push(row);
+                subSlice.values.add(subVal);
+            }
         }
         console.log(slices);
     }
