@@ -3,39 +3,46 @@ import {XE} from 'xtal-element/src/XE.js';
 
 export class XtalSlice extends HTMLElement implements XtalSliceActions{
     async onList({list}: this){
-        const value: Slices = {
+        const slices: Slices = {
         };
         for(const row of list){
             for(const key in row){
-                if(!value[key]){
-                    value[key] = {
+                if(!slices[key]){
+                    slices[key] = {
                         values: new Set(),
-                        parentList: list,
+                        list,
                     };
                 }
-                value[key].values.add(row[key]);
+                slices[key].values.add(row[key]);
             }
         }
-        console.log({list, value});
-        return {value};
+        console.log({list, slices});
+        return {slices};
         
     }
 
     onNewSlicePath({newSlicePath}: this): void {
         console.log(newSlicePath);
-        const slice = this.value[newSlicePath];
-        if(slice.lists !== undefined) return;
-        slice.lists = {};
-        const {lists, values, parentList} = slice;
+        const slice = this.slices[newSlicePath];
+        if(slice.subSlices !== undefined) return;
+        slice.subSlices = {};
+        const {subSlices, values, list} = slice;
         for(const value of values){
-            const sVal = value === null ? 'null' : value.toString();
-            lists[sVal] = [];
+            if(value === null) continue;
+            const sVal = value.toString();
+            subSlices[sVal] = {
+                values: new Set(),
+                list: [],
+            };
         }
-        for(const row of parentList){
+        for(const row of list){
             const val = row[newSlicePath];
-            lists[val === null ? 'null' : val.toString()].push(row);
+            if(val === null) continue;
+            const subSlice = subSlices[val.toString()];
+            subSlice.list.push(row);
+            subSlice.values.add(val);
         }
-        console.log(lists);
+        console.log(subSlices);
     }
 }
 
