@@ -19,28 +19,31 @@ export class XtalSlice extends HTMLElement {
     onNewSlicePath({ newSlicePath }) {
         console.log(newSlicePath);
         const slice = this.slices[newSlicePath];
-        if (slice.subSlices !== undefined)
+        if (slice.slices !== undefined)
             return;
-        slice.subSlices = {};
-        const { subSlices, values, list } = slice;
+        slice.slices = {};
+        this.subSlice(slice, newSlicePath);
+    }
+    subSlice(slice, key) {
+        const { slices, values, list } = slice;
         for (const value of values) {
             if (value === null)
                 continue;
             const sVal = value.toString();
-            subSlices[sVal] = {
+            slices[sVal] = {
                 values: new Set(),
                 list: [],
             };
         }
         for (const row of list) {
-            const val = row[newSlicePath];
+            const val = row[key];
             if (val === null)
                 continue;
-            const subSlice = subSlices[val.toString()];
+            const subSlice = slices[val.toString()];
             subSlice.list.push(row);
             subSlice.values.add(val);
         }
-        console.log(subSlices);
+        console.log(slices);
     }
 }
 const xe = new XE({

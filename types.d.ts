@@ -9,7 +9,7 @@ export interface XtalSliceProps<T = any> {
 export interface Slice<T = any>{
     values: Set<string | number | boolean | null>;
     list: T[];
-    subSlices?: Slices<T>;
+    slices?: Slices<T>;
 }
 
 export type Slices<T = any> = {[key: string]:  Slice<T>};
