@@ -1,5 +1,6 @@
 import {XtalSliceActions, XtalSliceProps, Slices, Slice} from './types';
 import {XE} from 'xtal-element/src/XE.js';
+import {getProp} from 'trans-render/lib/getProp.js';
 
 export class XtalSlice extends HTMLElement implements XtalSliceActions{
     async onList({list}: this){
@@ -22,11 +23,14 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
     }
 
     onNewSlicePath({newSlicePath}: this): void {
-        console.log(newSlicePath);
-        const slice = this.slices[newSlicePath];
+        //console.log(newSlicePath);
+        const split = newSlicePath.split('.');
+        const slice = getProp(this, split) as Slice;
+        if(slice === undefined) throw '404';
+        //const slice = this.slices[newSlicePath];
         if(slice.slices !== undefined) return;
         slice.slices = {};
-        this.subSlice(slice, newSlicePath);
+        this.subSlice(slice, split.pop()!);
     }
 
     subSlice(slice: Slice, key: string){
