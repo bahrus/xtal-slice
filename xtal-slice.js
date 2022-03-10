@@ -14,7 +14,6 @@ export class XtalSlice extends HTMLElement {
                 slices[key].values.add(row[key]);
             }
         }
-        console.log({ list, slices });
         return { slices };
     }
     onNewSlicePath({ newSlicePath }) {
@@ -55,7 +54,6 @@ export class XtalSlice extends HTMLElement {
             }
             slices[sVal] = slice;
         }
-        console.log(slices);
     }
 }
 const xe = new XE({

@@ -17,7 +17,6 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
                 slices[key].values.add(row[key]);
             }
         }
-        console.log({list, slices});
         return {slices};
         
     }
@@ -58,9 +57,6 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
             }
             slices![sVal] = slice;
         }
-        
-
-        console.log(slices);
     }
 }
 
