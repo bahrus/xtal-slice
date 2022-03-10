@@ -15,7 +15,7 @@
         target="[-value]"
     ></form>
     <obj-ml -value></obj-ml>
-    <pass-down on="value-changed" vft="value.results.0.members" to="[-list]"></pass-down>
+    <pass-down on="value-changed" vft="value.results.0.members" to="[-list]" m='1'></pass-down>
     <label>
         <input type="search" name="search" placeholder="Search" size="100" />
         <!--
@@ -26,18 +26,30 @@
         <pass-down on="change" vft from="label" to="[-new-slice-path]"></pass-down>
     </label>
     <xtal-slice -list -new-slice-path></xtal-slice>
+    <pass-down on="slice-changed" vft="slice.list" to=[-list]></pass-down>
+    <xtal-vlist -list row-transform='{
+        ".first_name": "first_name"
+    }'>
+        <div slot='row'>
+            <span class='first_name'></span>
+        </div>
+    </xtal-vlist>
     <script type=importmap>
         {
             "imports": {
                 "trans-render/": "../node_modules/trans-render/",
                 "xtal-element/": "../node_modules/xtal-element/",
                 "be-decorated/": "../node_modules/be-decorated/",
+                "be-deslotted/": "../node_modules/be-deslotted/",
+                "be-intersectional/": "../node_modules/be-intersectional/",
                 "be-observant/": "../node_modules/be-observant/",
                 "be-reformable/": "../node_modules/be-reformable/",
+                "be-repeated/": "../node_modules/be-repeated/",
                 "be-hive/": "../node_modules/be-hive/",
                 "obj-ml/": "../node_modules/obj-ml/",
                 "on-to-me/": "../node_modules/on-to-me/",
-                "pass-down/": "../node_modules/pass-down/"
+                "pass-down/": "../node_modules/pass-down/",
+                "xtal-vlist/": "../node_modules/xtal-vlist/"
             }
         }
     </script>
@@ -46,6 +58,7 @@
         import 'obj-ml/obj-ml.js';
         import 'pass-down/pass-down.js';
         import '../xtal-slice.js';
+        import 'xtal-vlist/xtal-vlist.js';
     </script>
 </body>
 </html>
