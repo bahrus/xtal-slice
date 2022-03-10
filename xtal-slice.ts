@@ -23,11 +23,9 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
     }
 
     onNewSlicePath({newSlicePath}: this): void {
-        //console.log(newSlicePath);
         const split = newSlicePath.split('.');
         const slice = getProp(this, split) as Slice;
         if(slice === undefined) throw '404';
-        //const slice = this.slices[newSlicePath];
         if(slice.slices !== undefined) return;
         slice.slices = {};
         this.subSlice(slice, split.pop()!);
@@ -35,13 +33,11 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
 
     subSlice(slice: Slice, key: string){
         const {slices, values, list} = slice;
-        //debugger;
         for(const value of values){
             if(value === null || value === undefined) continue;
             const sVal = value.toString();
             const filteredList = list.filter(x => x[key] === value);
             const slice = {
-                //values: new Set(),
                 list: filteredList,
                 slices: {}
             } as Slice;
@@ -58,24 +54,7 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
                     if(val === undefined || val === null) continue;
                     subSlices[key].values.add(val);
                 }
-                
-                //if(val === null || val === undefined) continue;
-                //const slice = slices![val.toString()];
-                // slice.list.push(row);
-                // const subSlices = slice.slices!;
-                // for(const key in row){
-                //     if(!subSlices[key]){
-                //         subSlices![key] = {
-                //             values: new Set(),
-                //             list,
-                //         };
-                //     }
-                //     const subVal = row[key];
-                //     const subSlice = subSlices![key];
-                //     //subSlice.list.push(row);
-                //     subSlice.values.add(subVal);
-                // }
-                //slice.values.add(val);
+
             }
             slices![sVal] = slice;
         }
