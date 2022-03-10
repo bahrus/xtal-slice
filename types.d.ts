@@ -10,6 +10,7 @@ export interface Slice<T = any>{
     values: Set<string | number | boolean | null | undefined>;
     list: T[];
     slices?: Slices<T>;
+    processed?: boolean;
 }
 
 export type Slices<T = any> = {[key: string]:  Slice<T>};

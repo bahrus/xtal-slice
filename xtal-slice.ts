@@ -8,7 +8,7 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
         };
         for(const row of list){
             for(const key in row){
-                if(!slices[key]){
+                if(slices[key] === undefined){
                     slices[key] = {
                         values: new Set(),
                         list,
@@ -35,37 +35,52 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
 
     subSlice(slice: Slice, key: string){
         const {slices, values, list} = slice;
-        debugger;
+        //debugger;
         for(const value of values){
             if(value === null || value === undefined) continue;
             const sVal = value.toString();
-            slices![sVal] = {
-                values: new Set(),
-                list: [],
-                slices: {},
-            };
+            const filteredList = list.filter(x => x[key] === value);
+            const slice = {
+                //values: new Set(),
+                list: filteredList,
+                slices: {}
+            } as Slice;
+            const subSlices = slice.slices!;
+            for(const row of filteredList){
+                for(const key in row){
+                    if(subSlices[key] === undefined){
+                        subSlices[key] = {
+                            values: new Set(),
+                            list: filteredList,
+                        };
+                    }
+                    const val = row[key];
+                    if(val === undefined || val === null) continue;
+                    subSlices[key].values.add(val);
+                }
+                
+                //if(val === null || val === undefined) continue;
+                //const slice = slices![val.toString()];
+                // slice.list.push(row);
+                // const subSlices = slice.slices!;
+                // for(const key in row){
+                //     if(!subSlices[key]){
+                //         subSlices![key] = {
+                //             values: new Set(),
+                //             list,
+                //         };
+                //     }
+                //     const subVal = row[key];
+                //     const subSlice = subSlices![key];
+                //     //subSlice.list.push(row);
+                //     subSlice.values.add(subVal);
+                // }
+                //slice.values.add(val);
+            }
+            slices![sVal] = slice;
         }
         
-        for(const row of list){
-            const val = row[key];
-            if(val === null || val === undefined) continue;
-            const slice = slices![val.toString()];
-            slice.list.push(row);
-            const subSlices = slice.slices!;
-            for(const key in row){
-                if(!subSlices[key]){
-                    subSlices![key] = {
-                        values: new Set(),
-                        list,
-                    };
-                }
-                const subVal = row[key];
-                const subSlice = subSlices![key];
-                //subSlice.list.push(row);
-                subSlice.values.add(subVal);
-            }
 
-        }
         console.log(slices);
     }
 }
