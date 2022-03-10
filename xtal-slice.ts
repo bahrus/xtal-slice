@@ -3,7 +3,7 @@ import {XE} from 'xtal-element/src/XE.js';
 import {getProp} from 'trans-render/lib/getProp.js';
 
 export class XtalSlice extends HTMLElement implements XtalSliceActions{
-    async onList({list}: this){
+    onList({list}: this){
         const slices: Slices = {
         };
         for(const row of list){
@@ -21,13 +21,14 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
         
     }
 
-    onNewSlicePath({newSlicePath}: this): void {
+    onNewSlicePath({newSlicePath}: this){
         const split = newSlicePath.split('.');
         const slice = getProp(this, split) as Slice;
         if(slice === undefined) throw '404';
         if(slice.slices !== undefined) return;
         slice.slices = {};
         this.subSlice(slice, split.pop()!);
+        return {slice};
     }
 
     subSlice(slice: Slice, key: string){
@@ -65,6 +66,14 @@ export interface XtalSlice extends XtalSliceProps{}
 const xe = new XE<XtalSliceProps, XtalSliceActions>({
     config:{
         tagName: 'xtal-slice',
+        propInfo: {
+            slice:{
+                parse: false,
+                notify:{
+                    dispatch:true,
+                }
+            }
+        },
         actions:{
             onList: 'list',
             onNewSlicePath: 'newSlicePath'
