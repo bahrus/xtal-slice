@@ -4,6 +4,13 @@ export interface XtalSliceProps<T = any> {
     slices: Slices<T>;
     slice: Slice;
     newSlicePath: string;
+    updateCount: number;
+    treeView: ITreeNode[];
+}
+
+export interface ITreeNode{
+    name: string,
+    children?: ITreeNode[];
 }
 
 export interface Slice<T = any>{
@@ -19,6 +26,11 @@ export interface XtalSliceActions{
     onList(self: this): {slices:Slices};
 
     onNewSlicePath(self: this): {
-        slice:Slice
+        slice:Slice,
+        updateCount: number,
+    } | void;
+
+    updateTreeView(self: this): {
+        treeView: ITreeNode[]
     } | void;
 }

@@ -16,7 +16,29 @@ export class XtalSlice extends HTMLElement {
         }
         return { slices };
     }
-    onNewSlicePath({ newSlicePath }) {
+    updateTreeView({ slices }, passedInSlices, parentNode) {
+        const localSlices = passedInSlices || slices;
+        const treeView = [];
+        for (const key in localSlices) {
+            const node = {
+                name: key
+            };
+            const slice = localSlices[key];
+            if (slice.slices !== undefined) {
+                this.updateTreeView(this, slice.slices, node);
+            }
+            treeView.push(node);
+        }
+        if (parentNode !== undefined) {
+            parentNode.children = treeView;
+        }
+        else {
+            return {
+                treeView
+            };
+        }
+    }
+    onNewSlicePath({ newSlicePath, updateCount }) {
         const split = newSlicePath.split('.');
         const slice = getProp(this, split);
         if (slice === undefined)
@@ -25,7 +47,8 @@ export class XtalSlice extends HTMLElement {
             return;
         slice.slices = {};
         this.subSlice(slice, split.pop());
-        return { slice };
+        updateCount++;
+        return { slice, updateCount };
     }
     subSlice(slice, key) {
         const { slices, values, list } = slice;
@@ -60,6 +83,9 @@ export class XtalSlice extends HTMLElement {
 const xe = new XE({
     config: {
         tagName: 'xtal-slice',
+        propDefaults: {
+            updateCount: 0,
+        },
         propInfo: {
             slice: {
                 parse: false,
@@ -70,7 +96,8 @@ const xe = new XE({
         },
         actions: {
             onList: 'list',
-            onNewSlicePath: 'newSlicePath'
+            onNewSlicePath: 'newSlicePath',
+            updateTreeView: 'updateCount',
         },
         style: {
             display: 'none'

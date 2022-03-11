@@ -1,4 +1,4 @@
-import {XtalSliceActions, XtalSliceProps, Slices, Slice} from './types';
+import {XtalSliceActions, XtalSliceProps, Slices, Slice, ITreeNode} from './types';
 import {XE} from 'xtal-element/src/XE.js';
 import {getProp} from 'trans-render/lib/getProp.js';
 
@@ -18,17 +18,39 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
             }
         }
         return {slices};
-        
     }
 
-    onNewSlicePath({newSlicePath}: this){
+    updateTreeView({slices}: this, passedInSlices?: Slices, parentNode?: ITreeNode){
+        const localSlices = passedInSlices || slices!;
+        const treeView: ITreeNode[] = [];
+        for(const key in localSlices){
+            const node: ITreeNode = {
+                name: key
+            }
+            const slice = localSlices[key];
+            if(slice.slices !== undefined){
+                this.updateTreeView(this, slice.slices, node);
+            }
+            treeView.push(node);
+        }
+        if(parentNode !== undefined){
+            parentNode.children = treeView;
+        }else{
+            return {
+                treeView
+            };
+        }
+    }
+
+    onNewSlicePath({newSlicePath, updateCount}: this){
         const split = newSlicePath.split('.');
         const slice = getProp(this, split) as Slice;
         if(slice === undefined) throw '404';
         if(slice.slices !== undefined) return;
         slice.slices = {};
         this.subSlice(slice, split.pop()!);
-        return {slice};
+        updateCount++;
+        return {slice, updateCount};
     }
 
     subSlice(slice: Slice, key: string){
@@ -66,6 +88,9 @@ export interface XtalSlice extends XtalSliceProps{}
 const xe = new XE<XtalSliceProps, XtalSliceActions>({
     config:{
         tagName: 'xtal-slice',
+        propDefaults:{
+            updateCount: 0,
+        },
         propInfo: {
             slice:{
                 parse: false,
@@ -76,7 +101,8 @@ const xe = new XE<XtalSliceProps, XtalSliceActions>({
         },
         actions:{
             onList: 'list',
-            onNewSlicePath: 'newSlicePath'
+            onNewSlicePath: 'newSlicePath',
+            updateTreeView: 'updateCount',
         },
         style:{
             display:'none'
