@@ -92,6 +92,12 @@ const xe = new XE({
                 notify: {
                     dispatch: true,
                 }
+            },
+            treeView: {
+                parse: false,
+                notify: {
+                    dispatch: true,
+                }
             }
         },
         actions: {

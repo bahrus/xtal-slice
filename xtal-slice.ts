@@ -97,6 +97,12 @@ const xe = new XE<XtalSliceProps, XtalSliceActions>({
                 notify:{
                     dispatch:true,
                 }
+            },
+            treeView:{
+                parse: false,
+                notify:{
+                    dispatch:true,
+                }
             }
         },
         actions:{
