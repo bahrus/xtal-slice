@@ -13,6 +13,7 @@
   },
   "devDependencies": {
     "xtal-test": "0.0.55",
+    "be-channeling": "0.0.5",
     "be-observant": "0.0.101",
     "be-reformable": "0.0.34",
     "obj-ml": "0.0.3",
