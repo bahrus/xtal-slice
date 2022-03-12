@@ -14,7 +14,10 @@ export class XtalSlice extends HTMLElement {
                 slices[key].values.add(row[key]);
             }
         }
-        return { slices };
+        return {
+            slices,
+            updateCount: 1,
+        };
     }
     updateTreeView({ slices }, passedInSlices, parentNode) {
         const localSlices = passedInSlices || slices;
