@@ -12,6 +12,7 @@ export interface ITreeNode{
     name: string,
     children?: ITreeNode[];
     path: string,
+    id: string,
 }
 
 export interface Slice<T = any>{

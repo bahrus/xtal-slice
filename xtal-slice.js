@@ -23,9 +23,12 @@ export class XtalSlice extends HTMLElement {
         const localSlices = passedInSlices || slices;
         const treeView = [];
         for (const key in localSlices) {
+            const path = parentNode ? `${parentNode.path}.slices.${key}` : `slices.${key}`;
+            const id = path;
             const node = {
                 name: key,
-                path: parentNode ? `${parentNode.path}.slices.${key}` : `slices.${key}`,
+                path,
+                id
             };
             const slice = localSlices[key];
             if (slice.slices !== undefined) {
