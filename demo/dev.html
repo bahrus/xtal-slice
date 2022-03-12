@@ -15,7 +15,7 @@
         target="[-value]"
     ></form>
     <obj-ml -value></obj-ml>
-    <pass-down on="value-changed" vft="value.results.0.members" to="[-list]" m='1'></pass-down>
+    <pass-down on="value-changed" vft="value.results.0.members" to="xtal-slice[-list]" m='1'></pass-down>
     <label>
         <input type="search" name="search" placeholder="Search" size="100" />
         <!--
@@ -27,7 +27,7 @@
     </label>
     <xtal-slice -list -new-slice-path></xtal-slice>
     <pass-down on='tree-view-changed' vft='treeView' to=[-nodes]></pass-down>
-    <!-- <pass-down on="slice-changed" vft="slice.list" to=[-list]></pass-down> -->
+    <pass-down on="slice-changed" vft="slice.list" to=.slice-view[-list]></pass-down>
     <xtal-tree -nodes></xtal-tree>
 
     <xtal-vlist style="height:600px;width:100%;" page-size="10" id="vlist" be-observant='{
@@ -70,9 +70,9 @@
             </style>
         </template>
     </xtal-vlist>
-    <!-- <xtal-vlist -list row-transform='{
+    <xtal-vlist class='slice-view' -list row-transform='{
         ".first_name": "first_name"
-    }'> -->
+    }'>
         <div slot='row'>
             <span class='first_name'></span>
         </div>
