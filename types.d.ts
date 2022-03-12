@@ -11,6 +11,7 @@ export interface XtalSliceProps<T = any> {
 export interface ITreeNode{
     name: string,
     children?: ITreeNode[];
+    path: string,
 }
 
 export interface Slice<T = any>{
