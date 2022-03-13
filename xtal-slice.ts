@@ -62,6 +62,10 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
     onNewSlicePath({newSlicePath, updateCount}: this){
         const split = newSlicePath.split('.');
         const slice = getProp(this, split) as Slice;
+        const tn = this.#sliceToNode.get(slice);
+        if(tn !== undefined){
+            tn.open = true;
+        }
         if(slice === undefined) throw '404';
         if(slice.slices !== undefined) return;
         slice.slices = {};

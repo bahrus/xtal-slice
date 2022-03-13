@@ -13,6 +13,7 @@ export interface ITreeNode{
     children?: ITreeNode[];
     path: string,
     id: string,
+    open?: boolean;
 }
 
 export interface Slice<T = any>{
