@@ -19,18 +19,26 @@ export class XtalSlice extends HTMLElement {
             updateCount: 1,
         };
     }
+    #sliceToNode = new WeakMap();
     updateTreeView({ slices }, passedInSlices, parentNode) {
         const localSlices = passedInSlices || slices;
         const treeView = [];
         for (const key in localSlices) {
             const path = parentNode ? `${parentNode.path}.slices.${key}` : `slices.${key}`;
             const id = path;
+            const slice = localSlices[key];
             const node = {
                 name: key,
                 path,
                 id
             };
-            const slice = localSlices[key];
+            const existingNode = this.#sliceToNode.get(slice);
+            if (existingNode !== undefined) {
+                if (existingNode.name === node.name && existingNode.path === node.path && existingNode.id === node.id) {
+                    Object.assign(node, existingNode);
+                }
+            }
+            this.#sliceToNode.set(slice, node);
             if (slice.slices !== undefined) {
                 this.updateTreeView(this, slice.slices, node);
             }
