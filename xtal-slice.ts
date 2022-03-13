@@ -23,15 +23,16 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
         };
     }
     #sliceToNode: WeakMap<Slice, ITreeNode> = new WeakMap();
-    updateTreeView({slices}: this, passedInSlices?: Slices, parentNode?: ITreeNode){
+    updateTreeView({slices}: this, level=0, passedInSlices?: Slices, parentNode?: ITreeNode){
         const localSlices = passedInSlices || slices!;
         const treeView: ITreeNode[] = [];
         for(const key in localSlices){
             const path = parentNode ? `${parentNode.path}.slices.${key}` : `slices.${key}`;
             const id = path;
             const slice = localSlices[key];
+            const prefix = (level % 2 === 0) ? 'By ' : '';
             const node: ITreeNode = {
-                name: `By ${key}`,
+                name: `${prefix}${key}`,
                 path,
                 id
             };
@@ -44,7 +45,7 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
             this.#sliceToNode.set(slice, node);
             
             if(slice.slices !== undefined){
-                this.updateTreeView(this, slice.slices, node);
+                this.updateTreeView(this, level + 1, slice.slices, node);
             }
             treeView.push(node);
         }
