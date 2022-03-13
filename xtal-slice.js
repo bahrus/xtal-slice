@@ -28,7 +28,7 @@ export class XtalSlice extends HTMLElement {
             const id = path;
             const slice = localSlices[key];
             const node = {
-                name: key,
+                name: `By ${key}`,
                 path,
                 id
             };
@@ -44,6 +44,7 @@ export class XtalSlice extends HTMLElement {
             }
             treeView.push(node);
         }
+        treeView.sort((a, b) => a.name.localeCompare(b.name));
         if (parentNode !== undefined) {
             parentNode.children = treeView;
         }
