@@ -20,10 +20,13 @@ export class XtalSlice extends HTMLElement {
         };
     }
     #sliceToNode = new WeakMap();
-    updateTreeView({ slices }, level = 0, passedInSlices, parentNode) {
+    updateTreeView({ slices }, level = 0, passedInSlices, parentNode, sliced) {
         const localSlices = passedInSlices || slices;
         const treeView = [];
         for (const key in localSlices) {
+            if (sliced !== undefined && sliced.has(key))
+                continue;
+            const newSliced = sliced === undefined ? new Set() : structuredClone(sliced);
             const path = parentNode ? `${parentNode.path}.slices.${key}` : `slices.${key}`;
             const id = path;
             const slice = localSlices[key];
@@ -41,7 +44,9 @@ export class XtalSlice extends HTMLElement {
             }
             this.#sliceToNode.set(slice, node);
             if (slice.slices !== undefined) {
-                this.updateTreeView(this, level + 1, slice.slices, node);
+                if (level % 2 === 0)
+                    newSliced.add(key);
+                this.updateTreeView(this, level + 1, slice.slices, node, newSliced);
             }
             treeView.push(node);
         }

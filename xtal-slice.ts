@@ -2,6 +2,7 @@ import {XtalSliceActions, XtalSliceProps, Slices, Slice, ITreeNode} from './type
 import {XE} from 'xtal-element/src/XE.js';
 import {getProp} from 'trans-render/lib/getProp.js';
 
+declare function structuredClone<T>(inp: T): T;
 export class XtalSlice extends HTMLElement implements XtalSliceActions{
     onList({list}: this){
         const slices: Slices = {
@@ -23,10 +24,12 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
         };
     }
     #sliceToNode: WeakMap<Slice, ITreeNode> = new WeakMap();
-    updateTreeView({slices}: this, level=0, passedInSlices?: Slices, parentNode?: ITreeNode){
+    updateTreeView({slices}: this, level=0, passedInSlices?: Slices, parentNode?: ITreeNode, sliced?: Set<string>){
         const localSlices = passedInSlices || slices!;
         const treeView: ITreeNode[] = [];
         for(const key in localSlices){
+            if(sliced !== undefined && sliced.has(key)) continue;
+            const newSliced = sliced === undefined ? new Set<string>() : structuredClone(sliced);
             const path = parentNode ? `${parentNode.path}.slices.${key}` : `slices.${key}`;
             const id = path;
             const slice = localSlices[key];
@@ -45,7 +48,8 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
             this.#sliceToNode.set(slice, node);
             
             if(slice.slices !== undefined){
-                this.updateTreeView(this, level + 1, slice.slices, node);
+                if(level %2 === 0) newSliced.add(key);
+                this.updateTreeView(this, level + 1, slice.slices, node, newSliced);
             }
             treeView.push(node);
         }
