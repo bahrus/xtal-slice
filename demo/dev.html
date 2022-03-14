@@ -76,8 +76,14 @@
     }'>
         <template slot='style'>
             <style>
+
                 span{
                     color:green;
+                }
+                div[slot="row"]{
+                    display:flex;
+                    flex-direction: row;
+                    justify-content: space-between;
                 }
             </style>
         </template>
@@ -88,6 +94,13 @@
             <span class='first_name'></span><span class='last_name'></span>
         </div>
     </xtal-vlist>
+    <style>
+        div[slot="header"]{
+            display:flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+    </style>
     <script type=importmap>
         {
             "imports": {
