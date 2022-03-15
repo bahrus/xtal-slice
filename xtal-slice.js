@@ -71,7 +71,7 @@ export class XtalSlice extends HTMLElement {
         if (slice === undefined)
             throw '404';
         if (slice.slices !== undefined)
-            return;
+            return { slice, updateCount };
         slice.slices = {};
         this.subSlice(slice, split.pop());
         updateCount++;
@@ -113,6 +113,7 @@ const xe = new XE({
         propDefaults: {
             updateCount: 0,
             splitNameBy: /(?=[A-Z])/,
+            newSlicePath: '',
         },
         propInfo: {
             slice: {
@@ -131,7 +132,8 @@ const xe = new XE({
         actions: {
             onList: 'list',
             onNewSlicePath: {
-                ifAllOf: ['newSlicePath', 'updateCount'],
+                ifAllOf: ['updateCount'],
+                ifKeyIn: ['newSlicePath'],
             },
             updateTreeView: 'updateCount',
         },

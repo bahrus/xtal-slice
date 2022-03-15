@@ -16,10 +16,10 @@
     ></form>
     <obj-ml -value></obj-ml>
     <pass-down on="value-changed" vft="value.results.0.members" to="xtal-slice[-list]" m='1'></pass-down>
-    <label>
+    <!-- <label>
         <input type="search" name="search" placeholder="Search" size="100" />
         <pass-down on="change" vft from="label" to="[-new-slice-path]"></pass-down>
-    </label>
+    </label> -->
     <xtal-slice -list -new-slice-path split-name-by='_'></xtal-slice>
     <pass-down on='tree-view-changed' vft='treeView' to=[-nodes]></pass-down>
     <pass-down on="slice-changed" vft="slice.list" to=.slice-view[-list]></pass-down>

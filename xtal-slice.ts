@@ -72,7 +72,7 @@ export class XtalSlice extends HTMLElement implements XtalSliceActions{
             tn.open = true;
         }
         if(slice === undefined) throw '404';
-        if(slice.slices !== undefined) return;
+        if(slice.slices !== undefined) return {slice, updateCount};
         slice.slices = {};
         this.subSlice(slice, split.pop()!);
         updateCount++;
@@ -117,6 +117,7 @@ const xe = new XE<XtalSliceProps, XtalSliceActions>({
         propDefaults:{
             updateCount: 0,
             splitNameBy: /(?=[A-Z])/,
+            newSlicePath: '',
         },
         propInfo: {
             slice:{
@@ -135,7 +136,8 @@ const xe = new XE<XtalSliceProps, XtalSliceActions>({
         actions:{
             onList: 'list',
             onNewSlicePath: {
-                ifAllOf: ['newSlicePath', 'updateCount'],
+                ifAllOf: ['updateCount'],
+                ifKeyIn: ['newSlicePath'],
             },
             updateTreeView: 'updateCount',
         },
