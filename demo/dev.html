@@ -18,14 +18,9 @@
     <pass-down on="value-changed" vft="value.results.0.members" to="xtal-slice[-list]" m='1'></pass-down>
     <label>
         <input type="search" name="search" placeholder="Search" size="100" />
-        <!--
-            slices.at_large
-            slices.at_large.slices.true
-            slices.at_large.slices.true.slices.gender
-        -->
         <pass-down on="change" vft from="label" to="[-new-slice-path]"></pass-down>
     </label>
-    <xtal-slice -list -new-slice-path></xtal-slice>
+    <xtal-slice -list -new-slice-path split-name-by='_'></xtal-slice>
     <pass-down on='tree-view-changed' vft='treeView' to=[-nodes]></pass-down>
     <pass-down on="slice-changed" vft="slice.list" to=.slice-view[-list]></pass-down>
     <xtal-tree -nodes></xtal-tree>

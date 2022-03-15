@@ -20,7 +20,7 @@ export class XtalSlice extends HTMLElement {
         };
     }
     #sliceToNode = new WeakMap();
-    updateTreeView({ slices }, level = 0, passedInSlices, parentNode, sliced) {
+    updateTreeView({ slices, splitNameBy }, level = 0, passedInSlices, parentNode, sliced) {
         const localSlices = passedInSlices || slices;
         const treeView = [];
         for (const key in localSlices) {
@@ -31,8 +31,9 @@ export class XtalSlice extends HTMLElement {
             const id = path;
             const slice = localSlices[key];
             const prefix = (level % 2 === 0) ? 'By ' : '';
+            const modifiedKey = (level % 2 === 0) ? key.split(splitNameBy).join(' ') : key;
             const node = {
-                name: `${prefix}${key}`,
+                name: `${prefix}${modifiedKey}`,
                 path,
                 id
             };
@@ -111,6 +112,7 @@ const xe = new XE({
         tagName: 'xtal-slice',
         propDefaults: {
             updateCount: 0,
+            splitNameBy: /(?=[A-Z])/,
         },
         propInfo: {
             slice: {

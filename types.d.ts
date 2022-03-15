@@ -6,6 +6,7 @@ export interface XtalSliceProps<T = any> {
     newSlicePath: string;
     updateCount: number;
     treeView: ITreeNode[];
+    splitNameBy: RegExp;
 }
 
 export interface ITreeNode{

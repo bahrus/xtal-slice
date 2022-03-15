@@ -11,6 +11,10 @@
     "type": "git",
     "url": "git+https://github.com/bahrus/xtal-slice.git"
   },
+  "dependencies": {
+    "trans-render": "0.0.514",
+    "xtal-element": "0.0.484"
+  },
   "devDependencies": {
     "xtal-test": "0.0.55",
     "be-channeling": "0.0.5",
