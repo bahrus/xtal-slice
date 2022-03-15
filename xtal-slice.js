@@ -130,7 +130,9 @@ const xe = new XE({
         },
         actions: {
             onList: 'list',
-            onNewSlicePath: 'newSlicePath',
+            onNewSlicePath: {
+                ifAllOf: ['newSlicePath', 'updateCount'],
+            },
             updateTreeView: 'updateCount',
         },
         style: {

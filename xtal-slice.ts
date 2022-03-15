@@ -134,7 +134,9 @@ const xe = new XE<XtalSliceProps, XtalSliceActions>({
         },
         actions:{
             onList: 'list',
-            onNewSlicePath: 'newSlicePath',
+            onNewSlicePath: {
+                ifAllOf: ['newSlicePath', 'updateCount'],
+            },
             updateTreeView: 'updateCount',
         },
         style:{
